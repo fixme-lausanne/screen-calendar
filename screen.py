@@ -46,13 +46,17 @@ def get_calendar(url):
         name = cal_obj.get('x-wr-calname')
         for e in cal_obj.walk():
             summary = e.get('summary')
-            date = e.get('dtstart')
-            if summary == None or date == None:
+            date_start = e.get('dtstart')
+            date_end = e.get('dtend')
+            location = e.get('location')
+            if summary == None or date_start == None:
                 continue
             events.append({
                 'cal': name,
                 'name': summary,
-                'timestamp': date.to_ical(),
+                'dtstart': date_start.to_ical(),
+                'dtend': date_end.to_ical(),
+                'location': location,
             })
     except IOError,e:
         events.append({'name': e, 'type': '', 'timestamp': 0})

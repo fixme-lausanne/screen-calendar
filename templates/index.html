@@ -19,7 +19,7 @@ along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
 <ul>
 {% for evt in data.events %}
     <li>
-        {{ evt.cal }} {{ evt.name }} {{ evt.timestamp }}
+        {{ evt.cal }} {{ evt.name }} {{ evt.dtstart }} {{ evt.dtend }} {{ evt.location }}
     </li>
 {% endfor %}
 </ul>
