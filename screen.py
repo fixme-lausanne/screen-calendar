@@ -39,6 +39,7 @@ app.secret_key = cfg.secret_key
 #
 
 def get_calendar(url):
+    name = ''
     events = []
     cal_data = requests.get(url).content
     try:
@@ -61,7 +62,7 @@ def get_calendar(url):
                 'location': location,
             })
     except Exception, e:
-        events.append({'name': e, 'cal': name, 'dtstart': '', 'dtend': '', 'location': ''})
+        events.append({'name': e, 'cal': name})
     return events
 
 #
