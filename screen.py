@@ -54,8 +54,8 @@ def get_calendar(url):
             events.append({
                 'cal': name,
                 'name': summary,
-                'dtstart': date_start.to_ical(),
-                'dtend': date_end.to_ical(),
+                'dtstart': date_start.dt.strftime('%d %B %Y %H:%M'),
+                'dtend': date_end.dt.strftime('%d %B %Y %H:%M'),
                 'location': location,
             })
     except IOError,e:
