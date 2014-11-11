@@ -20,7 +20,7 @@ along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from flask import Flask, render_template, request, Response, url_for, redirect, session
-import requests, vobject
+import requests, icalendar
 import random, sys, time
 import config as cfg
 
@@ -38,16 +38,21 @@ app.secret_key = cfg.secret_key
 # Functions
 #
 
-def get_calendar(cal):
+def get_calendar(url):
     events = []
-    cal_data = requests.get(cal['url']).content
+    cal_data = requests.get(url).content
     try:
-        cal_obj = vobject.readOne(cal_data)
-        for e in cal_obj.vevent_list[:10]:
+        cal_obj = icalendar.Calendar.from_ical(cal_data)
+        name = cal_obj.get('x-wr-calname')
+        for e in cal_obj.walk():
+            summary = e.get('summary')
+            date = e.get('dtstart')
+            if summary == None or date == None:
+                continue
             events.append({
-                'cal': cal['name'],
-                'name': e.summary.value,
-                'timestamp': int(time.mktime(e.dtstart.value.timetuple())),
+                'cal': name,
+                'name': summary,
+                'timestamp': date.to_ical(),
             })
     except IOError,e:
         events.append({'name': e, 'type': '', 'timestamp': 0})
