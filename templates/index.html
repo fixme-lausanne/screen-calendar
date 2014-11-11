@@ -16,3 +16,10 @@ along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
 #}
 <title>FIXME Calendar</title>
 <link rel="stylesheet" href="{{ data.css }}">
+<ul>
+{% for evt in data.events %}
+    <li>
+        {{ evt.cal }} {{ evt.name }} {{ evt.timestamp }}
+    </li>
+{% endfor %}
+</ul>

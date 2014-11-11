@@ -20,8 +20,8 @@ along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from flask import Flask, render_template, request, Response, url_for, redirect, session
-from urllib import urlencode
-import random, sys
+import requests, vobject
+import random, sys, time
 import config as cfg
 
 from IPython import embed
@@ -35,13 +35,36 @@ app.debug = True # FIXME: remove on production
 app.secret_key = cfg.secret_key
 
 #
+# Functions
+#
+
+def get_calendar(cal):
+    events = []
+    cal_data = requests.get(cal['url']).content
+    try:
+        cal_obj = vobject.readOne(cal_data)
+        for e in cal_obj.vevent_list[:10]:
+            events.append({
+                'cal': cal['name'],
+                'name': e.summary.value,
+                'timestamp': int(time.mktime(e.dtstart.value.timetuple())),
+            })
+    except IOError,e:
+        events.append({'name': e, 'type': '', 'timestamp': 0})
+    return events
+
+#
 #    PAGES
 #
 
 @app.route('/')
 def home():
     session['username'] = random.getrandbits(32)
+    events = []
+    for cal in cfg.calendars:
+        events += get_calendar(cal)
     return render_template('index.html', data={
+        'events': events,
         'css': url_for('static', filename='style.css'),
     })
 
