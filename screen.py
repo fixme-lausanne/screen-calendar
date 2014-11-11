@@ -20,8 +20,8 @@ along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from flask import Flask, render_template, request, Response, url_for, redirect, session
-import requests, icalendar
-import random, sys, datetime, dateutil
+import requests, icalendar, arrow
+import random, sys
 import config as cfg
 
 from IPython import embed
@@ -45,14 +45,13 @@ def get_calendar(url):
     try:
         cal_obj = icalendar.Calendar.from_ical(cal_data)
         name = cal_obj.get('x-wr-calname')
-        yesterday = datetime.datetime.today() - datetime.timedelta(days=1)
-        yesterday.replace(tzinfo=dateutil.tz.tzlocal())
+        yesterday = arrow.now().floor('day').replace(days=-1)
         for e in cal_obj.walk():
             summary = e.get('summary')
             date_start = e.get('dtstart')
             date_end = e.get('dtend')
             location = e.get('location')
-            if summary == None or date_start == None: # or date_start.dt < yesterday:
+            if summary == None or date_start == None or arrow.Arrow.fromdate(date_start.dt) < yesterday:
                 continue
             events.append({
                 'cal': name,
@@ -61,7 +60,7 @@ def get_calendar(url):
                 'dtend': date_end.dt.strftime('%d %B %Y %H:%M'),
                 'location': location,
             })
-    except Exception, e:
+    except IOError, e:
         events.append({'name': e, 'cal': name})
     return events
 
