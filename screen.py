@@ -60,6 +60,7 @@ def get_calendar(url):
                 'name': summary,
                 'dtstart': date_start.dt.strftime('%d %B %Y %H:%M'),
                 'dtend': date_end.dt.strftime('%d %B %Y %H:%M'),
+                'timestamp': arrow.Arrow.fromdate(date_start.dt).timestamp,
                 'location': location,
             })
     except IOError, e:
@@ -76,6 +77,7 @@ def home():
     events = []
     for cal in cfg.calendars:
         events += get_calendar(cal)
+    events = sorted(events, key=lambda i: i['timestamp'])
     return render_template('index.html', data={
         'events': events,
         'css': url_for('static', filename='style.css'),
