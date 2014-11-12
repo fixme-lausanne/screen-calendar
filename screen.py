@@ -19,7 +19,7 @@ You should have received a copy of the GNU General Public License
 along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from flask import Flask, render_template, request, Response, url_for, redirect, session
+from flask import Flask, render_template, request, Response, redirect, session
 import requests, icalendar, arrow
 import random, sys
 import config as cfg
@@ -53,16 +53,26 @@ def get_calendar(url):
             date_start = e.get('dtstart')
             date_end = e.get('dtend')
             location = e.get('location')
+            desc = e.get('description')
             if arrow.Arrow.fromdate(date_start.dt) < yesterday:
                 continue
-            events.append({
+            evt = {
                 'cal': name,
                 'name': summary,
-                'dtstart': date_start.dt.strftime('%d %B %Y %H:%M'),
-                'dtend': date_end.dt.strftime('%d %B %Y %H:%M'),
+                's_day': date_start.dt.strftime('%d'),
+                's_month': date_start.dt.strftime('%b'),
+                's_year': date_start.dt.strftime('%Y'),
+                's_time': date_start.dt.strftime('%H:%M'),
+                'e_day': date_end.dt.strftime('%d'),
+                'e_month': date_end.dt.strftime('%b'),
+                'e_year': date_end.dt.strftime('%Y'),
+                'e_time': date_end.dt.strftime('%H:%M'),
                 'timestamp': arrow.Arrow.fromdate(date_start.dt).timestamp,
                 'location': location,
-            })
+                'description': desc,
+            }
+            if evt not in events: # Some events appear twice
+                events.append(evt)
     except IOError, e:
         events.append({'name': e, 'cal': name})
     return events
@@ -78,10 +88,7 @@ def home():
     for cal in cfg.calendars:
         events += get_calendar(cal)
     events = sorted(events, key=lambda i: i['timestamp'])
-    return render_template('index.html', data={
-        'events': events,
-        'css': url_for('static', filename='style.css'),
-    })
+    return render_template('index.html', data={'events': events})
 
 #
 #    MAIN

@@ -14,12 +14,46 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
 #}
-<title>FIXME Calendar</title>
-<link rel="stylesheet" href="{{ data.css }}">
-<ul>
-{% for evt in data.events %}
-    <li>
-        {{ evt.cal }} {{ evt.name }} {{ evt.dtstart }} {{ evt.dtend }} {{ evt.location }}
-    </li>
-{% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>FIXME Calendar</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename="style.css") }}">
+    <link href="{{ url_for('static', filename="bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
+                <ul class="event-list">
+                    {% for evt in data.events %}
+                    <li>
+                        <time datetime="{{ evt.s_year }}-{{ evt.s_month }}-{{ evt.s_day }} {{ evt.s_time }}">
+                            <span class="day">{{ evt.s_day }}</span>
+                            <span class="month">{{ evt.s_month }}</span>
+                            <span class="year">{{ evt.s_year }}</span>
+                        </time>
+                        <div class="info">
+                            <h2 class="title">{{ evt.name }} - {{ evt.cal }}</h2>
+                            <p class="desc">{{ evt.s_day }} {{ evt.s_month }} {{evt.s_time }} - {{ evt.e_day }} {{ evt.e_month }} {{ evt.e_time }}</p>
+                            {% if evt.description %}
+                                <p class="desc">Description: {{ evt.description }}</p>
+                            {% endif %}
+                            {% if evt.location %}
+                                <p class="desc">Location: {{ evt.location }}</p>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename="jquery.min.js") }}"></script>
+    <script src="{{ url_for('static', filename="bootstrap/js/bootstrap.min.js") }}"></script>
+</body>
+</html>
+
