@@ -31,6 +31,12 @@ body {
 .event-list > li > time > span {
     display: none;
 }
+.event-list > li > time > .dow {
+    display: block;
+    font-size: 12pt;
+    font-weight: 100;
+    line-height: 1;
+}
 .event-list > li > time > .day {
     display: block;
     font-size: 56pt;

@@ -32,6 +32,7 @@ along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
                     {% for evt in data.events %}
                     <li>
                         <time datetime="{{ evt.s_year }}-{{ evt.s_month }}-{{ evt.s_day }} {{ evt.s_time }}">
+                            <span class="dow">{{ evt.dow }}</span>
                             <span class="day">{{ evt.s_day }}</span>
                             <span class="month">{{ evt.s_month }}</span>
                             <span class="year">{{ evt.s_year }}</span>
