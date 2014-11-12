@@ -47,11 +47,13 @@ def get_calendar(url):
         name = cal_obj.get('x-wr-calname')
         yesterday = arrow.now().floor('day').replace(days=-1)
         for e in cal_obj.walk():
+            if e.name != 'VEVENT':
+                continue
             summary = e.get('summary')
             date_start = e.get('dtstart')
             date_end = e.get('dtend')
             location = e.get('location')
-            if summary == None or date_start == None or arrow.Arrow.fromdate(date_start.dt) < yesterday:
+            if arrow.Arrow.fromdate(date_start.dt) < yesterday:
                 continue
             events.append({
                 'cal': name,
