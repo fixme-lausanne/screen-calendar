@@ -75,7 +75,7 @@ def get_event(cal_name, dt_start, dt_end, evt):
     return {
         'cal': cal_name,
         'name': summary,
-        'dow': dt_start.format('dddd'),
+        'dow': dt_start.datetime.strftime('%A'),
         's_day': dt_start.format('DD'),
         's_month': dt_start.format('MMM'),
         's_year': dt_start.format('YYYY'),
