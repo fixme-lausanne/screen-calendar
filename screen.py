@@ -41,7 +41,12 @@ app.secret_key = cfg.secret_key
 def get_recurrences(dt_start, dt_end, freq, byday):
     pass
 
-def get_event(calendar, summary, location, description, dt_start, dt_end):
+def get_event(calendar, evt):
+    summary     = evt.get('summary')
+    location    = evt.get('location')
+    description = evt.get('description')
+    dt_start    = evt.get('dtstart')
+    dt_end      = evt.get('dtend')
     return {
         'cal': calendar,
         'name': summary,
@@ -76,12 +81,8 @@ def get_calendar(url):
             #TODO Handle recurence
             if e.get('rrule') != None:
                 continue
-            summary = e.get('summary')
-            location = e.get('location')
-            desc = e.get('description')
-            date_end = e.get('dtend')
             # Create and add event
-            evt = get_event(cal_name, summary, location, desc, date_start, date_end)
+            evt = get_event(cal_name, e)
             if evt not in events:
                 events.append(evt)
     except IOError, e:
