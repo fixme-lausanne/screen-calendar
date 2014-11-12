@@ -41,7 +41,7 @@ app.secret_key = cfg.secret_key
 def get_calendar(url):
     name = ''
     events = []
-    cal_data = requests.get(url).content
+    cal_data = requests.get(url, headers={'User-Agent': cfg.user_agent}).content
     try:
         cal_obj = icalendar.Calendar.from_ical(cal_data)
         name = cal_obj.get('x-wr-calname')
