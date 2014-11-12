@@ -38,27 +38,52 @@ app.secret_key = cfg.secret_key
 # Functions
 #
 
-def get_recurrences(dt_start, dt_end, freq, byday):
-    pass
+def get_recurrences(cal_name, dt_start, dt_end, evt):
+    rrule = evt.get('rrule')
+    byday = rrule.get('byday')
+    freq = rrule.get('freq')[0]
 
-def get_event(calendar, evt):
+    until = rrule.get('until')
+    if until != None:
+        rec_end = arrow.get(until[0])
+    else:
+        rec_end = arrow.get().replace(months=+1)
+
+    events = []
+    while dt_start < rec_end:
+        events.append(get_event(cal_name, dt_start, dt_end, evt))
+        # Increment date
+        if freq == 'WEEKLY':
+            dt_start = dt_start.replace(days=+7)
+            dt_end = dt_end.replace(days=+7)
+        elif freq == 'MONTHLY':
+            dt_start = dt_start.replace(months=+1)
+            dt_end = dt_end.replace(months=+1)
+        elif freq == 'YEARLY':
+            dt_start = dt_start.replace(years=+1)
+            dt_end = dt_end.replace(years=+1)
+        else:
+            dt_start = dt_start.replace(days=+1)
+            dt_end = dt_end.replace(days=+1)
+
+    return events
+
+def get_event(cal_name, dt_start, dt_end, evt):
     summary     = evt.get('summary')
     location    = evt.get('location')
     description = evt.get('description')
-    dt_start    = evt.get('dtstart')
-    dt_end      = evt.get('dtend')
     return {
-        'cal': calendar,
+        'cal': cal_name,
         'name': summary,
-        's_day': dt_start.dt.strftime('%d'),
-        's_month': dt_start.dt.strftime('%b'),
-        's_year': dt_start.dt.strftime('%Y'),
-        's_time': dt_start.dt.strftime('%H:%M'),
-        'e_day': dt_end.dt.strftime('%d'),
-        'e_month': dt_end.dt.strftime('%b'),
-        'e_year': dt_end.dt.strftime('%Y'),
-        'e_time': dt_end.dt.strftime('%H:%M'),
-        'timestamp': arrow.Arrow.fromdate(dt_start.dt).timestamp,
+        's_day': dt_start.format('DD'),
+        's_month': dt_start.format('MMM'),
+        's_year': dt_start.format('YYYY'),
+        's_time': dt_start.format('HH:mm'),
+        'e_day': dt_end.format('DD'),
+        'e_month': dt_end.format('MMM'),
+        'e_year': dt_end.format('YYYY'),
+        'e_time': dt_end.format('HH:mm'),
+        'timestamp': dt_start.timestamp,
         'location': location,
         'description': description,
     }
@@ -74,17 +99,25 @@ def get_calendar(url):
         for e in cal_obj.walk():
             if e.name != 'VEVENT':
                 continue
+            # Get dates
+            try:
+                dt_start = arrow.get(e.get('dtstart').dt)
+                dt_end   = arrow.get(e.get('dtend').dt)
+            except TypeError, f:
+                dt_start = arrow.Arrow.fromdate(e.get('dtstart').dt)
+                dt_end   = arrow.Arrow.fromdate(e.get('dtend').dt)
             # Only future or recent events
-            date_start = e.get('dtstart')
-            if arrow.Arrow.fromdate(date_start.dt) < yesterday:
-                continue
-            #TODO Handle recurence
-            if e.get('rrule') != None:
+            if dt_start < yesterday:
                 continue
             # Create and add event
-            evt = get_event(cal_name, e)
-            if evt not in events:
-                events.append(evt)
+            if e.get('rrule') == None:
+                evt = get_event(cal_name, dt_start, dt_end, e)
+                if evt not in events:
+                    events.append(evt)
+            else:
+                for f in get_recurrences(cal_name, dt_start, dt_end, e):
+                    if f not in events:
+                        events.append(f)
     except IOError, e:
         events.append({'name': e, 'cal': cal_name})
     return events
