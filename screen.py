@@ -134,7 +134,7 @@ def home():
     for cal in cfg.calendars:
         events += get_calendar(cal)
     events = sorted(events, key=lambda i: i['timestamp'])
-    return render_template('index.html', data={'events': events})
+    return render_template('list.html', data={'events': events})
 
 #
 #    MAIN
