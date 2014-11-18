@@ -129,7 +129,7 @@ def get_calendar(url):
 
 @app.route('/')
 def home():
-    session['username'] = random.getrandbits(32)
+    #session['username'] = random.getrandbits(32)
     events = []
     for cal in cfg.calendars:
         events += get_calendar(cal)
