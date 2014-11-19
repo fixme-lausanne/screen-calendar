@@ -1,5 +1,5 @@
 {% macro list_event(events) -%}
-    {% for evt in data.events %}
+    {% for evt in events %}
     <li>
         <time datetime="{{ evt.s_year }}-{{ evt.s_month }}-{{ evt.s_day }} {{ evt.s_time }}">
             <span class="dow">{{ evt.dow }}</span>
