@@ -130,11 +130,30 @@ def get_calendar(url):
 @app.route('/')
 def home():
     #session['username'] = random.getrandbits(32)
+
+    # Get all events
     events = []
     for cal in cfg.calendars:
         events += get_calendar(cal)
     events = sorted(events, key=lambda i: i['timestamp'])
-    return render_template('list.html', data={'events': events})
+
+    # Split according to date range
+    today_start = arrow.get().replace(hour=0, minute=0, second=0)
+    today_end = today_start.replace(days=+1)
+    week_end = today_start.replace(days=+7)
+    past_events = [x for x in events if x['timestamp'] <= today_start.timestamp]
+    today_events = [x for x in events if x['timestamp'] > today_start.timestamp and x['timestamp'] <= today_end.timestamp]
+    week_events = [x for x in events if x['timestamp'] > today_end.timestamp and x['timestamp'] <= week_end.timestamp]
+    future_events = [x for x in events if x['timestamp'] > week_end.timestamp]
+
+
+    return render_template('list.html', data={
+        'all_events': events,
+        'past_events': past_events,
+        'today_events': today_events,
+        'week_events': week_events,
+        'future_events': future_events,
+    })
 
 #
 #    MAIN

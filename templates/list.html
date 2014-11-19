@@ -26,7 +26,14 @@
     <div class="row">
         <div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
             <ul class="event-list">
-                {{ list_event(data.events) }}
+                <strong>Recent events</strong>
+                {{ list_event(data.past_events) }}
+                <strong>Today events</strong>
+                {{ list_event(data.today_events) }}
+                <strong>This week events</strong>
+                {{ list_event(data.week_events) }}
+                <strong>Future events</strong>
+                {{ list_event(data.future_events) }}
             </ul>
         </div>
     </div>
