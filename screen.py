@@ -21,7 +21,7 @@ along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask, render_template, request, Response, redirect, session
 import requests, icalendar, arrow
-import random, sys
+import random, sys, types
 import config as cfg
 
 from IPython import embed
@@ -111,7 +111,7 @@ def get_calendar(url):
             if dt_start < yesterday:
                 continue
             # Create and add event
-            if e.get('rrule') == None:
+            if type(e.get('rrule')) == types.NoneType:
                 evt = get_event(cal_name, dt_start, dt_end, e)
                 if evt not in events:
                     events.append(evt)
