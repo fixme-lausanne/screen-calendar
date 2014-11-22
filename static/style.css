@@ -59,12 +59,25 @@ body {
 .event-list > li > .info > .title {
     font-size: 17pt;
     font-weight: 700;
-    margin: 0 0 8px 0;
+    margin: 0 0 4px 0;
 }
 .event-list > li > .info > .desc {
     font-size: 13pt;
     font-weight: 300;
     margin: 0px;
+}
+.event-list > li> .info > .specs {
+    height: 15px;
+    font-size: 10pt;
+    color: #222;
+    padding-left: 10px; 
+}
+.event-list > li > .info > .specs > img {
+    height: auto;
+    width: auto;
+    max-width: 12px;
+    max-height: 12px;
+    margin: 0 2px;
 }
 .event-list > li > .info > ul,
 .event-list > li > .social > ul {

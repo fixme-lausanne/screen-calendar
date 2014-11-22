@@ -9,12 +9,16 @@
         </time>
         <div class="info">
             <h2 class="title">{{ evt.name }} - {{ evt.cal }}</h2>
-            <p class="desc">{{ evt.s_day }} {{ evt.s_month }} {{evt.s_time }} - {{ evt.e_day }} {{ evt.e_month }} {{ evt.e_time }}</p>
+	    <span class="specs">
+		<img src="./static/img/clock.png"/>
+		{{evt.s_time}} - {{evt.e_time}}
+		{% if evt.location %}
+		<img src="./static/img/loc.png" />
+		{{evt.location}}
+		{% endif %}
+	    </span>
             {% if evt.description %}
-                <p class="desc">Description: {{ evt.description }}</p>
-            {% endif %}
-            {% if evt.location %}
-                <p class="desc">Location: {{ evt.location }}</p>
+                <p class="desc">{{ evt.description }}</p>
             {% endif %}
         </div>
     </li>
@@ -29,14 +33,17 @@
                 {% if data.past_events %}
                     <strong>Recent events</strong>
                     {{ list_event(data.past_events) }}
+		    <hr/>
                 {% endif %}
                 {% if data.today_events %}
                     <strong>Today events</strong>
                     {{ list_event(data.today_events) }}
+		    <hr/>
                 {% endif %}
                 {% if data.week_events %}
                     <strong>This week events</strong>
                     {{ list_event(data.week_events) }}
+		    <hr/>
                 {% endif %}
                 {% if data.future_events %}
                     <strong>Future events</strong>
