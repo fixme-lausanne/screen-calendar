@@ -1,7 +1,7 @@
 {% macro list_event_small(events) -%}
     {% for evt in events %}
-    <li>
-        {{ evt.s_day }} {{ evt.s_month }} {{ evt.s_time }} <strong class="title">{{ evt.name }} - {{ evt.cal }}</strong>
+    <li class="list-group-item">
+        {{ evt.s_day }}.{{ evt.s_month_num }}@{{ evt.s_time }} {{ evt.cal }} <strong class="title">{{ evt.name }}</strong>
     </li>
     {% endfor %}
 {%- endmacro %}
@@ -61,7 +61,7 @@
 
         {% if data.future_events %}
             <h2>Future events</h2>
-            <ul class="">
+            <ul class="list-group">
                 {{ list_event_small(data.future_events) }}
             </ul>
         {% endif %}

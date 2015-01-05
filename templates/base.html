@@ -26,7 +26,9 @@ along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
 </head>
 <body>
     <div class="container">
-        <h1>Events calendar</h1>
+        <div class="page-header">
+            <h1>Events calendar <small>FIXME Hackerspace, Hackuarium and Univercity events</small></h1>
+        </div>
         {% block body %}{% endblock %}
     </div>
     <script src="{{ url_for('static', filename="jquery.min.js") }}"></script>
