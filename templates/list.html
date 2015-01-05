@@ -1,3 +1,10 @@
+{% macro list_event_small(events) -%}
+    {% for evt in events %}
+    <li>
+        {{ evt.s_day }} {{ evt.s_month }} {{ evt.s_time }} <strong class="title">{{ evt.name }} - {{ evt.cal }}</strong>
+    </li>
+    {% endfor %}
+{%- endmacro %}
 {% macro list_event(events) -%}
     {% for evt in events %}
     <li>
@@ -36,26 +43,26 @@
             </ul>
         {% endif %}
 
-        {% if data.past_events %}
-            <h2>Recent events</h2>
-            <ul class="event-list">
-                {{ list_event(data.past_events) }}
-            </ul>
-        {% endif %}
-    </div>
-
-    <div class="col-md-6">
         {% if data.week_events %}
             <h2>This week events</h2>
             <ul class="event-list">
                 {{ list_event(data.week_events) }}
             </ul>
         {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        {% if data.past_events %}
+            <h2>Recent events</h2>
+            <ul class="event-list">
+                {{ list_event(data.past_events) }}
+            </ul>
+        {% endif %}
 
         {% if data.future_events %}
             <h2>Future events</h2>
-            <ul class="event-list">
-                {{ list_event(data.future_events) }}
+            <ul class="">
+                {{ list_event_small(data.future_events) }}
             </ul>
         {% endif %}
     </div>
