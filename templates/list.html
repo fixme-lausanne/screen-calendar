@@ -1,7 +1,7 @@
 {% macro list_event_small(events) -%}
     {% for evt in events %}
     <li class="list-group-item">
-        {{ evt.s_day }}.{{ evt.s_month_num }}@{{ evt.s_time }} {{ evt.cal }} <strong class="title">{{ evt.name }}</strong>
+        {{ evt.s_day }}.{{ evt.s_month_num }}@{{ evt.s_time }} <span class="label label-primary">{{ evt.cal }}</span> <strong class="title">{{ evt.name }}</strong>
     </li>
     {% endfor %}
 {%- endmacro %}
