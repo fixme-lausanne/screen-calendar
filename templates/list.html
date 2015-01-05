@@ -8,7 +8,7 @@
             <span class="year">{{ evt.s_year }}</span>
         </time>
         <div class="info">
-            <h2 class="title">{{ evt.name }} - {{ evt.cal }}</h2>
+            <h3 class="title">{{ evt.name }} - {{ evt.cal }}</h3>
             <span class="specs">
                 <img src="./static/img/clock.png"/>
                 {{evt.s_time}} - {{evt.e_time}}
@@ -26,32 +26,40 @@
 {%- endmacro %}
 {% extends "base.html" %}
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="[ col-xs-12 col-sm-offset-2 col-sm-8 ]">
+<div class="row">
+
+    <div class="col-md-6">
+        {% if data.today_events %}
+            <h2>Today events</h2>
             <ul class="event-list">
-                {% if data.past_events %}
-                    <strong>Recent events</strong>
-                    {{ list_event(data.past_events) }}
-		    <hr/>
-                {% endif %}
-                {% if data.today_events %}
-                    <strong>Today events</strong>
-                    {{ list_event(data.today_events) }}
-		    <hr/>
-                {% endif %}
-                {% if data.week_events %}
-                    <strong>This week events</strong>
-                    {{ list_event(data.week_events) }}
-		    <hr/>
-                {% endif %}
-                {% if data.future_events %}
-                    <strong>Future events</strong>
-                    {{ list_event(data.future_events) }}
-                {% endif %}
+                {{ list_event(data.today_events) }}
             </ul>
-        </div>
+        {% endif %}
+
+        {% if data.past_events %}
+            <h2>Recent events</h2>
+            <ul class="event-list">
+                {{ list_event(data.past_events) }}
+            </ul>
+        {% endif %}
     </div>
+
+    <div class="col-md-6">
+        {% if data.week_events %}
+            <h2>This week events</h2>
+            <ul class="event-list">
+                {{ list_event(data.week_events) }}
+            </ul>
+        {% endif %}
+
+        {% if data.future_events %}
+            <h2>Future events</h2>
+            <ul class="event-list">
+                {{ list_event(data.future_events) }}
+            </ul>
+        {% endif %}
+    </div>
+
 </div>
 {% endblock %}
 

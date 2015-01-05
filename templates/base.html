@@ -25,7 +25,10 @@ along with FIXME Events.  If not, see <http://www.gnu.org/licenses/>.
     <link href="{{ url_for('static', filename="bootstrap/css/bootstrap.min.css") }}" rel="stylesheet">
 </head>
 <body>
-    {% block body %}{% endblock %}
+    <div class="container">
+        <h1>Events calendar</h1>
+        {% block body %}{% endblock %}
+    </div>
     <script src="{{ url_for('static', filename="jquery.min.js") }}"></script>
     <script src="{{ url_for('static', filename="bootstrap/js/bootstrap.min.js") }}"></script>
 </body>

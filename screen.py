@@ -96,7 +96,7 @@ def get_calendar(url):
     try:
         cal_obj = icalendar.Calendar.from_ical(cal_data)
         cal_name = cal_obj.get('x-wr-calname')
-        yesterday = arrow.now().floor('day').replace(days=-1)
+        recent = arrow.now().floor('day').replace(days=-10) #FIXME: must be yesterday ?
         for e in cal_obj.walk():
             if e.name != 'VEVENT':
                 continue
@@ -108,7 +108,7 @@ def get_calendar(url):
                 dt_start = arrow.Arrow.fromdate(e.get('dtstart').dt)
                 dt_end   = arrow.Arrow.fromdate(e.get('dtend').dt)
             # Only future or recent events
-            if dt_start < yesterday:
+            if dt_start < recent:
                 continue
             # Create and add event
             if type(e.get('rrule')) == types.NoneType:
