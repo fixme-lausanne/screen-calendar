@@ -59,8 +59,8 @@
         {% if data.past_events %}
             <div class="panel panel-default">
                 <div class="panel-heading"><h4>Recent events</h4></div>
-                <ul class="panel-body event-list">
-                    {{ list_event(data.past_events) }}
+                <ul class="panel-body list-list">
+                    {{ list_event_small(data.past_events) }}
                 </ul>
             </div>
         {% endif %}
