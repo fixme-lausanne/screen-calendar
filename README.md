@@ -10,7 +10,7 @@ INSTALL
 
     `pip install -r requirements.txt`
 
-* Generate new random `secret_key for `config.pi`
+* Generate new random `secret_key` for `config.pi`
 
 RUN
 ---

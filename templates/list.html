@@ -38,7 +38,7 @@
     <div class="col-md-6">
         {% if data.today_events %}
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>Today events</h4></div>
+                <div class="panel-heading"><h4>Events today</h4></div>
                 <ul class="panel-body event-list">
                     {{ list_event(data.today_events) }}
                 </ul>
@@ -47,7 +47,7 @@
 
         {% if data.week_events %}
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>This week events</h4></div>
+                <div class="panel-heading"><h4>Events this week</h4></div>
                 <ul class="panel-body event-list">
                     {{ list_event(data.week_events) }}
                 </ul>
