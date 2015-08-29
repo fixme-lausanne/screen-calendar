@@ -108,7 +108,7 @@ def get_calendar(url):
             # Get dates
             try:
                 dt_start = arrow.get(e.get('dtstart').dt)
-                dt_end = arrow.get(e.get('dtend').dt
+                dt_end = arrow.get(e.get('dtend').dt)
             except TypeError as f:
                 dt_start = arrow.Arrow.fromdate(e.get('dtstart').dt)
                 dt_end = arrow.Arrow.fromdate(e.get('dtend').dt)
