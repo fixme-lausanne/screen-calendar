@@ -109,7 +109,7 @@ def get_calendar(url):
             try:
                 dt_start = arrow.get(e.get('dtstart').dt)
                 dt_end = arrow.get(e.get('dtend').dt
-            except TypeError, f:
+            except TypeError as f:
                 dt_start = arrow.Arrow.fromdate(e.get('dtstart').dt)
                 dt_end = arrow.Arrow.fromdate(e.get('dtend').dt)
             # Only future or recent events
@@ -124,7 +124,7 @@ def get_calendar(url):
                 for f in get_recurrences(cal_name, dt_start, dt_end, e):
                     if f not in events:
                         events.append(f)
-    except IOError, e:
+    except IOError as e:
         events.append({'name': e, 'cal': cal_name})
     return events
 
