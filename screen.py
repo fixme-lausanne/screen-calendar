@@ -21,6 +21,7 @@ along with FIXME Events. If not, see <http://www.gnu.org/licenses/>.
 
 from flask import Flask, render_template, request, Response, redirect, session
 import requests
+import requests_cache
 import icalendar
 import arrow
 import random
@@ -34,6 +35,7 @@ if cfg.secret_key == '':
     sys.exit(0)
 app.debug = True  # FIXME: remove on production
 app.secret_key = cfg.secret_key
+requests_cache.install_cache('cache')
 
 #
 # Functions

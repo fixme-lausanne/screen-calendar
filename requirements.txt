@@ -1,4 +1,5 @@
 flask
 requests
+requests_cache
 icalendar
 arrow
