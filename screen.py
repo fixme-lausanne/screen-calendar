@@ -101,7 +101,7 @@ def get_calendar(url):
     try:
         cal_obj = icalendar.Calendar.from_ical(cal_data)
         cal_name = cal_obj.get('x-wr-calname')
-        recent = arrow.now().floor('day').replace(days=-10)  # FIXME: must be yesterday ?
+        recent = arrow.now().floor('day').replace(days=-30)  # FIXME: must be yesterday ?
         for e in cal_obj.walk():
             if e.name != 'VEVENT':
                 continue
