@@ -77,6 +77,8 @@ def get_event(cal_name, dt_start, dt_end, evt):
     summary = evt.get('summary')
     location = evt.get('location')
     description = evt.get('description')
+    dt_start = dt_start.to('Europe/Zurich')
+    dt_end = dt_end.to('Europe/Zurich')
     return {
         'cal': cal_name,
         'name': summary,
