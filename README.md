@@ -18,4 +18,3 @@ RUN
 * Simply run screen.py and head to `http://127.0.0.1:5000/`
 
     `./screen.py`
-
