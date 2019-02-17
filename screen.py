@@ -158,10 +158,10 @@ def home():
 
     return render_template('list.html', data={
         'all_events': events,
-        'past_events': past_events[:5],
+        'past_events': past_events[:3],
         'today_events': today_events,
         'week_events': week_events,
-        'future_events': future_events[:5],
+        'future_events': future_events[:3],
     })
 
 #
