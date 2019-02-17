@@ -1,6 +1,17 @@
+html {
+  font-size: 2rem;
+}
+
 body {
     padding: 5px 0px;
-    background-color: rgb(220, 220, 220);
+}
+
+.panel-body {
+    padding: 5px;
+}
+
+.page-header {
+    margin: 10px 0 10px;
 }
 
 .event-list {
@@ -59,7 +70,6 @@ body {
     text-align: center;
 }
 .event-list > li > .info > .title {
-    font-size: 15pt;
     font-weight: 700;
     margin: 0 0 4px 0;
 }
